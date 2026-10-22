@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Ingresos Escala Capital</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: encabezado con acciones a la derecha, tres paneles (gráfica + tabla); acceso con contraseña; adaptable a celular */
+:root{--bg:#e9edf1;--panel:#ffffff;--fg:#0c1721;--fg2:#34434f;--fg3:#5b6874;--line:#c9d1d8;--grid:#d5dce2;--accent:#0f4f9e;--up:#0a7a3a;--dn:#b3261e;
+--s1:#1259b8;--s2:#d4490f;--s3:#0a8a5c;--s4:#b87800;--s5:#c93a78;--s6:#006400;
+--display:'Times New Roman',Times,serif;--body:'Times New Roman',Times,serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#070b0e;--panel:#10171c;--fg:#f4f7fa;--fg2:#c4cfd9;--fg3:#93a1ad;--line:#2c3943;--grid:#26323b;--accent:#7bb4ff;--up:#4cd08a;--dn:#ff8a80;
+--s1:#4a94f2;--s2:#f07a3a;--s3:#1fb985;--s4:#e0a410;--s5:#ec6a9f;--s6:#35b535;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#070b0e;--panel:#10171c;--fg:#f4f7fa;--fg2:#c4cfd9;--fg3:#93a1ad;--line:#2c3943;--grid:#26323b;--accent:#7bb4ff;--up:#4cd08a;--dn:#ff8a80;
+--s1:#4a94f2;--s2:#f07a3a;--s3:#1fb985;--s4:#e0a410;--s5:#ec6a9f;--s6:#35b535;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;padding-block:28px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:56px}
+#app{display:flex;flex-direction:column;gap:56px;min-width:0}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(26px,4vw,36px);margin:0;text-wrap:balance}
+.sub{color:var(--fg2);margin:6px 0 0}
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:16px}
+.acts{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.pdfb{font:inherit;font-weight:700;padding:10px 18px;min-height:42px;border-radius:8px;border:0;background:var(--accent);color:var(--bg);cursor:pointer}
+.pdfb:hover{filter:brightness(1.1)}
+.pdfb:disabled{opacity:.6;cursor:wait}
+.sw{all:unset;cursor:pointer;display:inline-flex;align-items:center;min-height:42px;border-radius:999px}
+.sw:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.trk{position:relative;display:block;width:62px;height:34px;border-radius:999px;background:var(--line);border:1px solid var(--fg3);transition:background .35s,border-color .35s,box-shadow .35s}
+.thb{position:absolute;top:3px;left:3px;width:26px;height:26px;border-radius:50%;background:var(--panel);color:var(--fg3);display:grid;place-items:center;font:700 16px var(--body);transition:transform .4s cubic-bezier(.3,1.4,.5,1),color .35s,box-shadow .35s;box-shadow:0 1px 3px rgb(0 0 0/.4)}
+.sw[aria-checked="true"] .trk{background:var(--accent);border-color:var(--accent)}
+.sw[aria-checked="true"] .thb{transform:translateX(28px);color:var(--accent);box-shadow:0 0 10px color-mix(in srgb,var(--accent) 70%,transparent)}
+.sw.on-anim .trk{animation:glow .9s ease-out}
+.sw.off-anim .trk{animation:dim .5s ease-out}
+@keyframes glow{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 70%,transparent)}100%{box-shadow:0 0 0 14px transparent}}
+@keyframes dim{0%{filter:brightness(1.5)}100%{filter:none}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;min-width:0}
+.panel h2{font-size:19px;margin:0 0 4px;font-weight:700}
+.panel p.n{margin:0 0 14px;color:var(--fg3);font-size:15px}
+.hd{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:8px 16px}
+.cvw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.cv{position:relative;height:380px;min-width:600px}
+.hint{display:none;color:var(--fg3);font-size:14px;margin:6px 0 0}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 14px}
+.yr{font:inherit;font-weight:600;padding:8px 16px;min-height:40px;border-radius:6px;border:1px solid var(--line);background:transparent;color:var(--fg2);cursor:pointer}
+.yr:hover{border-color:var(--accent);color:var(--fg)}
+.yr[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+.yr:focus-visible,input:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tot{display:flex;flex-wrap:wrap;gap:6px 18px;margin:0 0 10px;font-variant-numeric:tabular-nums;color:var(--fg2);font-size:15px}
+.tot b{color:var(--fg);font-weight:700}
+.tot i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px}
+.dl{font:inherit;font-size:15px;font-weight:600;padding:8px 14px;min-height:40px;border-radius:6px;border:1px solid var(--line);background:transparent;color:var(--fg);cursor:pointer;white-space:nowrap}
+.dl:hover{border-color:var(--accent);color:var(--accent)}
+.gnote{display:none;margin:14px 0 0;color:var(--fg3);font-size:14px}
+.pct .gnote{display:block}
+.tw{overflow-x:auto;margin-top:18px;border-top:1px solid var(--line);-webkit-overflow-scrolling:touch}
+table.dt{width:100%;border-collapse:separate;border-spacing:0;font-variant-numeric:tabular-nums;font-size:15px}
+.dt th,.dt td{padding:7px 10px;text-align:right;white-space:nowrap;border-bottom:1px solid var(--line);vertical-align:top}
+.dt th:first-child,.dt td:first-child{text-align:left;position:sticky;left:0;background:var(--panel);z-index:1}
+.dt thead th{color:var(--fg2);font-weight:700}
+.dt thead i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px}
+.dt tbody tr:hover td{background:var(--bg)}
+.dt tfoot td{font-weight:700;border-top:2px solid var(--fg3);border-bottom:0}
+.dt .na{color:var(--fg3)}
+.g{display:block;font-size:.82em;font-weight:600;max-height:0;opacity:0;overflow:hidden;transform:translateY(-4px);transition:max-height .4s ease,opacity .4s ease,transform .4s ease;color:var(--fg3)}
+.pct .g{max-height:1.6em;opacity:1;transform:none}
+.g.up{color:var(--up)}.g.dn{color:var(--dn)}
+#gate{max-width:360px;margin:12vh auto 0;display:flex;flex-direction:column;gap:12px}
+#gate input{font:inherit;padding:10px 12px;border-radius:6px;border:1px solid var(--line);background:var(--panel);color:var(--fg)}
+#gate button{font:inherit;font-weight:700;padding:10px;border-radius:6px;border:0;background:var(--accent);color:var(--bg);cursor:pointer}
+#err{color:var(--s2);min-height:1.2em;margin:0;font-size:15px}
+#msg{color:var(--fg3);font-size:14px;min-height:1.2em;margin:0}
+.foot{color:var(--fg3);font-size:14px}
+@media (max-width:640px){
+ body{padding-block:18px 32px}
+ .wrap,#app{gap:32px}
+ .panel{padding:14px}
+ .cv{height:320px;min-width:470px}
+ .hint{display:block}
+ .acts{width:100%;justify-content:space-between}
+ .pdfb{flex:1}
+ .dl{width:100%}
+ .hd>div{min-width:0}
+ .dt th,.dt td{padding:7px 8px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style><style>html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+</head>
+<body>
+
+<div class="wrap">
+<div id="gate">
+<h1>Ingresos Escala Capital</h1>
+<p class="sub">Ingresa la contraseña para ver los gráficos.</p>
+<form id="f" style="display:flex;flex-direction:column;gap:12px"><input id="pw" type="password" placeholder="Contraseña" autocomplete="current-password" aria-label="Contraseña"><button type="submit">Entrar</button></form>
+<p id="err" role="alert"></p>
+</div>
+<div id="app" hidden>
+<div class="top">
+<div><h1>Ingresos Escala Capital</h1><p class="sub" id="upd"></p></div>
+<div class="acts">
+<button class="sw" id="sw" role="switch" aria-checked="false" aria-label="Mostrar porcentajes de crecimiento contra el año anterior" title="Porcentajes de crecimiento"><span class="trk"><span class="thb">%</span></span></button>
+<button class="pdfb" id="pdf" type="button">Generar PDF</button>
+</div>
+</div>
+<section class="panel"><div class="hd"><div><h2>Ingresos mensuales por año (líneas)</h2><p class="n">Utilidad generada por mes, enero a diciembre (MXN). Toca un año de la leyenda para ocultarlo.</p></div><button class="dl" data-c="c1">Descargar imagen</button></div><div class="cvw"><div class="cv"><canvas id="c1" role="img" aria-label="Ingresos mensuales por año, líneas"></canvas></div></div><p class="hint">Desliza el gráfico para ver todos los meses.</p><p class="gnote">Porcentajes: variación contra el mismo mes del año anterior mostrado; si ocultas un año, se compara contra el año visible anterior. El total del año en curso se compara contra el mismo periodo.</p><div class="tw" id="t1"></div></section>
+<section class="panel"><div class="hd"><div><h2>Ingresos mensuales por año (columnas)</h2><p class="n">Misma información, para comparar mes contra mes entre años.</p></div><button class="dl" data-c="c3">Descargar imagen</button></div><div class="cvw"><div class="cv"><canvas id="c3" role="img" aria-label="Ingresos mensuales por año, columnas"></canvas></div></div><p class="hint">Desliza el gráfico para ver todos los meses.</p><p class="gnote">Porcentajes: variación contra el mismo mes del año anterior mostrado; si ocultas un año, se compara contra el año visible anterior. El total del año en curso se compara contra el mismo periodo.</p><div class="tw" id="t3"></div></section>
+<section class="panel"><div class="hd"><div><h2>Ingresos por producto</h2><p class="n">Utilidad de operación por producto y mes. Elige un año.</p></div><button class="dl" data-c="c2">Descargar imagen</button></div>
+<div class="row" id="years"></div><div class="tot" id="tot"></div>
+<div class="cvw"><div class="cv"><canvas id="c2" role="img" aria-label="Ingresos por producto"></canvas></div></div><p class="hint">Desliza el gráfico para ver todos los meses.</p><p class="gnote">Porcentajes: variación contra el mismo mes y producto del año anterior. El total del año en curso se compara contra el mismo periodo del año anterior.</p><div class="tw" id="t2"></div></section>
+<p id="msg" role="status"></p>
+<p class="foot" id="foot"></p>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+let ENC=null;
+async function loadEnc(){if(!ENC){const r=await fetch("datos.json?v="+Date.now(),{cache:"no-store"});if(!r.ok)throw new Error("datos");ENC=await r.json()}}
+const FF="'Times New Roman',Times,serif";
+Chart.defaults.font.family=FF;Chart.defaults.font.size=14;
+const MESL=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const MES=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+const PRODS=['PESO-PESO','PESO-DÓLAR','DÓLAR-PESO','EURO-PESO'];
+const LT={fg:'#0c1721',fg2:'#34434f',fg3:'#5b6874',grid:'#d5dce2',line:'#c9d1d8',up:'#0a7a3a',dn:'#b3261e',s:['#1259b8','#d4490f','#0a8a5c','#b87800','#c93a78','#006400']};
+const b64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+async function dec(pw){const k=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveKey']);
+const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b64(ENC.salt),iterations:200000,hash:'SHA-256'},k,{name:'AES-GCM',length:256},false,['decrypt']);
+const p=await crypto.subtle.decrypt({name:'AES-GCM',iv:b64(ENC.iv)},key,b64(ENC.ct));return JSON.parse(new TextDecoder().decode(p))}
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const fmt=v=>'$'+Math.round(v).toLocaleString('es-MX');
+const fm=v=>'$'+(v/1e6).toFixed(1)+' M';
+const pct=(c,p)=>(c==null||p==null||p===0)?null:(c-p)/p;
+const fp=g=>g==null?'—':(g>=0?'+':'−')+Math.abs(g*100).toFixed(1)+'%';
+const sum=(a,n)=>(a||[]).slice(0,n).reduce((s,v)=>s+(v||0),0);
+let D,ch1,ch2,ch3,yr,PCT=false;
+const HID=new Set();
+const lim=y=>+y===D.anio?D.mes:12;
+const visYears=()=>Object.keys(D.mensual).filter(y=>!HID.has(y));
+
+/* ---------- modelos de datos (misma fuente para pantalla, imagen y PDF) ---------- */
+function monthlyModel(ys){
+ const all=Object.keys(D.mensual);
+ return{cols:ys.map(y=>({n:y,i:all.indexOf(y)})),
+  rows:MES.map((_,m)=>ys.map((y,k)=>{const a=D.mensual[y][m],pv=k>0?D.mensual[ys[k-1]]:null;return{a,g:pct(a,pv?pv[m]:null)}})),
+  totals:ys.map((y,k)=>{const L=lim(y),v=D.mensual[y],pv=k>0?D.mensual[ys[k-1]]:null;return{a:sum(v,12),g:pv?pct(sum(v,L),sum(pv,L)):null}})};
+}
+function productModel(y){
+ const p=D.producto[y]||{},pp=D.producto[String(+y-1)],L=lim(y);
+ const cols=PRODS.map((n,i)=>({n,i})).concat([{n:'Total mes',i:-1}]);
+ const g=(s,n,m)=>(s&&s[n]?s[n][m]:0)||0;
+ const rows=MES.map((_,m)=>{
+  if(m>=L)return cols.map(()=>({a:null,g:null}));
+  const cells=PRODS.map(n=>{const a=g(p,n,m);return{a,g:pp?pct(a,g(pp,n,m)):null}});
+  const ta=cells.reduce((s,c)=>s+c.a,0),tp=pp?PRODS.reduce((s,n)=>s+g(pp,n,m),0):null;
+  cells.push({a:ta,g:pct(ta,tp)});return cells});
+ const totals=PRODS.map(n=>({a:sum(p[n],12),g:pp?pct(sum(p[n],L),sum(pp[n],L)):null}));
+ const ta=totals.reduce((s,c)=>s+c.a,0),tp=pp?PRODS.reduce((s,n)=>s+sum(pp[n],L),0):null;
+ totals.push({a:ta,g:pct(PRODS.reduce((s,n)=>s+sum(p[n],L),0),tp)});
+ return{cols,rows,totals};
+}
+
+/* ---------- tablas en pantalla ---------- */
+function renderTable(el,M){
+ const th='<th>Mes</th>'+M.cols.map(c=>'<th>'+(c.i>=0?'<i style="background:'+css('--s'+(c.i+1))+'"></i>':'')+c.n+'</th>').join('');
+ const cell=c=>c.a==null?'<td class="na">—</td>':'<td><span class="a">'+fmt(c.a)+'</span><span class="g '+(c.g==null?'':c.g>=0?'up':'dn')+'">'+fp(c.g)+'</span></td>';
+ el.innerHTML='<table class="dt"><thead><tr>'+th+'</tr></thead><tbody>'+M.rows.map((r,m)=>'<tr><td>'+MES[m]+'</td>'+r.map(cell).join('')+'</tr>').join('')+'</tbody><tfoot><tr><td>Total</td>'+M.totals.map(cell).join('')+'</tr></tfoot></table>';
+}
+function tables(){
+ const ys=visYears(),M=monthlyModel(ys);
+ renderTable(document.getElementById('t1'),M);renderTable(document.getElementById('t3'),M);
+ renderTable(document.getElementById('t2'),productModel(yr));
+}
+
+/* ---------- gráficos en pantalla ---------- */
+function axes(){const t=css('--fg2'),g=css('--grid');return{x:{ticks:{color:t},grid:{display:false}},y:{beginAtZero:true,ticks:{color:t,callback:fm},grid:{color:g}}}}
+function draw(){
+ [ch1,ch2,ch3].forEach(c=>c&&c.destroy());
+ const all=Object.keys(D.mensual),col=i=>css('--s'+(i+1));
+ const base=()=>({maintainAspectRatio:false,interaction:{mode:'index',intersect:false},scales:axes()});
+ const L={labels:{color:css('--fg2'),boxWidth:9,boxHeight:9,borderRadius:2,useBorderRadius:true,padding:16,font:{size:14}}};
+ const Ly={labels:L.labels,onClick:(e,item)=>{const y=item.text;HID.has(y)?HID.delete(y):HID.add(y);
+  const i=all.indexOf(y);[ch1,ch3].forEach(c=>{c.setDatasetVisibility(i,!HID.has(y));c.update()});tables()}};
+ const tipY={callbacks:{label:c=>{const y=c.dataset.label,vis=visYears(),k=vis.indexOf(y),py=k>0?vis[k-1]:null;let s=' '+y+': '+fmt(c.parsed.y);
+  if(PCT&&py){const g=pct(c.parsed.y,D.mensual[py][c.dataIndex]);if(g!=null)s+='  ('+fp(g)+' vs '+py+')'}return s}}};
+ const tipP={callbacks:{label:c=>{let s=' '+c.dataset.label+': '+fmt(c.parsed.y);
+  if(PCT){const pp=D.producto[String(+yr-1)];const pv=pp?((pp[c.dataset.label]||[])[c.dataIndex]||0):null;const g=pct(c.parsed.y,pv);if(g!=null)s+='  ('+fp(g)+' vs '+(+yr-1)+')'}return s}}};
+ ch1=new Chart('c1',{type:'line',data:{labels:MES,datasets:all.map((y,i)=>({label:y,data:D.mensual[y],borderColor:col(i),backgroundColor:col(i),borderWidth:2.5,pointRadius:3.5,pointHoverRadius:7,tension:.25,hidden:HID.has(y)}))},
+  options:{...base(),plugins:{legend:Ly,tooltip:tipY}}});
+ ch3=new Chart('c3',{type:'bar',data:{labels:MES,datasets:all.map((y,i)=>({label:y,data:D.mensual[y],backgroundColor:col(i),borderRadius:3,borderSkipped:'bottom',hidden:HID.has(y)}))},
+  options:{...base(),plugins:{legend:Ly,tooltip:tipY}}});
+ const p=D.producto[yr]||{};
+ ch2=new Chart('c2',{type:'bar',data:{labels:MES,datasets:PRODS.map((n,i)=>({label:n,data:p[n]||Array(12).fill(0),backgroundColor:col(i),borderRadius:3,borderSkipped:'bottom'}))},
+  options:{...base(),plugins:{legend:L,tooltip:tipP}}});
+ document.getElementById('tot').innerHTML=PRODS.map((n,i)=>'<span><i style="background:'+col(i)+'"></i>'+n+' <b>'+fmt(sum(p[n],12))+'</b></span>').join('');
+ tables();
+}
+function setYear(y){yr=y;document.querySelectorAll('.yr').forEach(b=>b.setAttribute('aria-pressed',b.dataset.y===y));draw()}
+
+/* ---------- exportación: gráficos fuera de pantalla, siempre sobre fondo blanco ---------- */
+function offChart(type,datasets){
+ const cv=document.createElement('canvas');cv.width=1040;cv.height=380;
+ const ch=new Chart(cv,{type,data:{labels:MES,datasets},options:{responsive:false,animation:false,devicePixelRatio:2,
+  scales:{x:{ticks:{color:LT.fg2},grid:{display:false}},y:{beginAtZero:true,ticks:{color:LT.fg2,callback:fm},grid:{color:LT.grid}}},
+  plugins:{legend:{labels:{color:LT.fg2,boxWidth:9,boxHeight:9,borderRadius:2,useBorderRadius:true,padding:16,font:{size:14}}}}}});
+ ch.update('none');setTimeout(()=>ch.destroy(),0);return cv;
+}
+function monthlyDatasets(type,ys){
+ const all=Object.keys(D.mensual);
+ return ys.map(y=>{const c=LT.s[all.indexOf(y)];return type==='line'?{label:y,data:D.mensual[y],borderColor:c,backgroundColor:c,borderWidth:2.5,pointRadius:3.5,tension:.25}:{label:y,data:D.mensual[y],backgroundColor:c,borderRadius:3,borderSkipped:'bottom'}});
+}
+function productDatasets(y){const p=D.producto[y]||{};return PRODS.map((n,i)=>({label:n,data:p[n]||Array(12).fill(0),backgroundColor:LT.s[i],borderRadius:3,borderSkipped:'bottom'}))}
+function compose(title,sub,chartCv,M,withPct){
+ const W=1100,S=2,pad=30,tw=W-pad*2,c0=130,cw=(tw-c0)/M.cols.length,rh=withPct?46:32,hh=38,top=84,ch=380;
+ const H=top+ch+18+hh+rh*(M.rows.length+1)+34;
+ const o=document.createElement('canvas');o.width=W*S;o.height=H*S;const x=o.getContext('2d');x.scale(S,S);
+ x.fillStyle='#ffffff';x.fillRect(0,0,W,H);
+ x.textAlign='left';x.fillStyle=LT.fg;x.font='700 28px '+FF;x.fillText(title,pad,38);
+ x.fillStyle=LT.fg3;x.font='400 16px '+FF;x.fillText(sub,pad,62);
+ x.drawImage(chartCv,pad,top,1040,ch);
+ const y0=top+ch+18,rx=i=>pad+c0+cw*(i+1)-10;
+ const line=(y,w,c)=>{x.strokeStyle=c;x.lineWidth=w;x.beginPath();x.moveTo(pad,y);x.lineTo(pad+tw,y);x.stroke()};
+ line(y0,1,LT.line);
+ x.font='700 15px '+FF;x.fillStyle=LT.fg2;x.textAlign='left';x.fillText('Mes',pad+8,y0+25);
+ M.cols.forEach((c,i)=>{x.textAlign='right';x.fillStyle=LT.fg2;x.font='700 15px '+FF;x.fillText(c.n,rx(i),y0+25);
+  if(c.i>=0){const w=x.measureText(c.n).width;x.fillStyle=LT.s[c.i];x.fillRect(rx(i)-w-17,y0+15,10,10)}});
+ line(y0+hh,1,LT.line);
+ const cell=(c,i,y,bold)=>{x.textAlign='right';x.font=(bold?'700 ':'400 ')+'15px '+FF;
+  if(c.a==null){x.fillStyle=LT.fg3;x.fillText('—',rx(i),y+21);return}
+  x.fillStyle=LT.fg;x.fillText(fmt(c.a),rx(i),y+21);
+  if(withPct){x.font='700 13px '+FF;x.fillStyle=c.g==null?LT.fg3:c.g>=0?LT.up:LT.dn;x.fillText(fp(c.g),rx(i),y+38)}};
+ M.rows.forEach((r,m)=>{const y=y0+hh+rh*m;x.textAlign='left';x.fillStyle=LT.fg;x.font='400 15px '+FF;x.fillText(MES[m],pad+8,y+21);r.forEach((c,i)=>cell(c,i,y,false));line(y+rh,1,LT.line)});
+ const fy=y0+hh+rh*M.rows.length;line(fy,2,LT.fg3);
+ x.textAlign='left';x.fillStyle=LT.fg;x.font='700 15px '+FF;x.fillText('Total',pad+8,fy+21);M.totals.forEach((c,i)=>cell(c,i,fy,true));
+ return o;
+}
+function subTitle(){return 'Escala Capital · Pesos mexicanos · Cifras al cierre de '+MESL[D.mes-1]+' de '+D.anio}
+async function getDl(){
+ try{const d=(window.claude&&claude.use)?await claude.use('downloads'):null;if(d)return d}catch(e){}
+ return{save:async({filename,data})=>{const b=data instanceof Blob?data:new Blob([data]);const u=URL.createObjectURL(b);
+  const a=document.createElement('a');a.href=u;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),5000);return{status:'saved'}}}}
+const errMsg=e=>e&&e.code==='declined'?'Descarga cancelada.':'No se pudo descargar el archivo en esta vista.';
+
+async function savePng(btn){
+ const msg=document.getElementById('msg');msg.textContent='';
+ try{
+  const c=btn.dataset.c;let cv,M,title,name;
+  if(c==='c2'){cv=offChart('bar',productDatasets(yr));M=productModel(yr);title='Ingresos por producto · '+yr;name='ingresos-por-producto-'+yr}
+  else{const ys=visYears(),t=c==='c1'?'line':'bar';cv=offChart(t,monthlyDatasets(t,ys));M=monthlyModel(ys);title='Ingresos mensuales por año';name=c==='c1'?'ingresos-mensuales-lineas':'ingresos-mensuales-columnas'}
+  const o=compose(title,subTitle(),cv,M,PCT);
+  const blob=await new Promise(r=>o.toBlob(r,'image/png'));
+  await(await getDl()).save({filename:name+'.png',data:blob});msg.textContent='Imagen guardada.';
+ }catch(e){msg.textContent=errMsg(e)}
+}
+
+/* ---------- reporte PDF ---------- */
+function pdfTable(doc,x,y,widths,rows,opt){
+ const rh=18;doc.setFontSize(10);
+ rows.forEach((r,ri)=>{let cx=x;const head=ri===0;
+  doc.setFont('times',head||(opt.boldLast&&ri===rows.length-1)?'bold':'normal');
+  r.forEach((v,ci)=>{const w=widths[ci];if(ci===0)doc.text(String(v),cx+4,y+12);else doc.text(String(v),cx+w-4,y+12,{align:'right'});cx+=w});
+  doc.setDrawColor(head?120:200);doc.setLineWidth(head?.8:.4);doc.line(x,y+rh,x+widths.reduce((a,b)=>a+b,0),y+rh);y+=rh});
+ return y;
+}
+const pdfG=g=>g==null?'-':(g>=0?'+':'-')+Math.abs(g*100).toFixed(1)+'%';
+async function makePdf(){
+ const msg=document.getElementById('msg'),btn=document.getElementById('pdf');msg.textContent='';
+ btn.disabled=true;const t0=btn.textContent;btn.textContent='Generando…';
+ try{
+  const dls=await getDl();
+  const {jsPDF}=window.jspdf,doc=new jsPDF({unit:'pt',format:'a4'}),PW=595.28,PH=841.89,mg=36;
+  const all=Object.keys(D.mensual),years=Object.keys(D.producto).sort();
+  const hoy=new Date().toLocaleDateString('es-MX',{day:'numeric',month:'long',year:'numeric'});
+  doc.setFont('times','bold');doc.setFontSize(26);doc.text('Reporte de ingresos',mg,72);
+  doc.setFont('times','normal');doc.setFontSize(12);
+  doc.text('Escala Capital · Cifras en pesos mexicanos al cierre de '+MESL[D.mes-1]+' de '+D.anio,mg,94);
+  doc.text('Generado el '+hoy,mg,110);
+  doc.setFont('times','bold');doc.setFontSize(14);doc.text('Ingresos por año (utilidad generada)',mg,150);
+  const r1=[['Año','Ingresos','Crecimiento vs año anterior']];
+  all.forEach(y=>{const v=D.mensual[y],pv=D.mensual[String(+y-1)],L=lim(y);r1.push([y+(+y===D.anio?' (ene-'+MES[D.mes-1].toLowerCase()+')':''),fmt(sum(v,12)),pv?pdfG(pct(sum(v,L),sum(pv,L))):'-'])});
+  let y=pdfTable(doc,mg,160,[180,170,173],r1,{});
+  doc.setFont('times','bold');doc.setFontSize(14);doc.text('Ingresos por producto y año (utilidad de operación, miles de pesos)',mg,y+34);
+  const r2=[['Producto'].concat(years)];
+  PRODS.forEach(n=>r2.push([n].concat(years.map(a=>'$'+Math.round(sum((D.producto[a]||{})[n],12)/1e3).toLocaleString('es-MX')))));
+  r2.push(['Total'].concat(years.map(a=>'$'+Math.round(PRODS.reduce((s,n)=>s+sum((D.producto[a]||{})[n],12),0)/1e3).toLocaleString('es-MX'))));
+  const w2=[120].concat(years.map(()=>(PW-2*mg-120)/years.length));
+  y=pdfTable(doc,mg,y+44,w2,r2,{boldLast:true});
+  doc.setFont('times','bold');doc.setFontSize(14);doc.text('Crecimiento por producto contra el año anterior',mg,y+34);
+  const r3=[['Producto'].concat(years.slice(1))];
+  const prodG=(a,n)=>{const L=lim(a),pa=D.producto[String(+a-1)];return pa?pdfG(pct(sum((D.producto[a]||{})[n],L),sum(pa[n],L))):'-'};
+  PRODS.forEach(n=>r3.push([n].concat(years.slice(1).map(a=>prodG(a,n)))));
+  r3.push(['Total'].concat(years.slice(1).map(a=>{const L=lim(a),pa=D.producto[String(+a-1)];return pa?pdfG(pct(PRODS.reduce((s,n)=>s+sum((D.producto[a]||{})[n],L),0),PRODS.reduce((s,n)=>s+sum(pa[n],L),0))):'-'})));
+  const w3=[120].concat(years.slice(1).map(()=>(PW-2*mg-120)/(years.length-1)));
+  y=pdfTable(doc,mg,y+44,w3,r3,{boldLast:true});
+  doc.setFont('times','italic');doc.setFontSize(10);
+  doc.text('El año en curso corresponde a los meses cerrados; su crecimiento se compara contra el mismo periodo del año anterior.',mg,y+24,{maxWidth:PW-2*mg});
+  const pages=[];
+  pages.push(()=>compose('Ingresos mensuales por año (líneas)',subTitle(),offChart('line',monthlyDatasets('line',all)),monthlyModel(all),true));
+  pages.push(()=>compose('Ingresos mensuales por año (columnas)',subTitle(),offChart('bar',monthlyDatasets('bar',all)),monthlyModel(all),true));
+  pages.push(()=>compose('Ingresos por producto · '+yr,subTitle(),offChart('bar',productDatasets(yr)),productModel(yr),true));
+  for(const mk of pages){
+   const o=mk();await new Promise(r=>setTimeout(r,0));
+   doc.addPage();const w=PW-2*mg,h=w*o.height/o.width;
+   doc.addImage(o.toDataURL('image/jpeg',0.92),'JPEG',mg,mg,w,h);
+  }
+  const n=doc.getNumberOfPages();
+  for(let i=1;i<=n;i++){doc.setPage(i);doc.setFont('times','normal');doc.setFontSize(9);doc.setTextColor(110);
+   doc.text('Escala Capital · Reporte de ingresos · Página '+i+' de '+n,PW/2,PH-18,{align:'center'});doc.setTextColor(0)}
+  await dls.save({filename:'reporte-ingresos-'+D.anio+'-'+String(D.mes).padStart(2,'0')+'.pdf',data:doc.output('blob')});
+  msg.textContent='Reporte guardado.';
+ }catch(e){msg.textContent=errMsg(e);console.error(e)}
+ btn.disabled=false;btn.textContent=t0;
+}
+
+/* ---------- arranque ---------- */
+function start(d){D=d;document.getElementById('gate').hidden=true;document.getElementById('app').hidden=false;
+ document.getElementById('upd').textContent='Actualizado al '+D.fecha+'. Cifras en pesos mexicanos.';
+ document.getElementById('foot').textContent='Fuente: control de operaciones (pestañas UTILIDADES y OPERACIONES). Se muestran solo meses cerrados, hasta '+MESL[D.mes-1]+' de '+D.anio+'.';
+ const ys=Object.keys(D.producto).filter(y=>+y>=2021).sort();
+ document.getElementById('years').innerHTML=ys.map(y=>'<button class="yr" data-y="'+y+'" aria-pressed="false">'+y+'</button>').join('');
+ document.querySelectorAll('.yr').forEach(b=>b.onclick=()=>setYear(b.dataset.y));
+ document.querySelectorAll('.dl').forEach(b=>b.onclick=()=>savePng(b));
+ document.getElementById('pdf').onclick=makePdf;
+ const sw=document.getElementById('sw'),app=document.getElementById('app');
+ sw.onclick=()=>{PCT=!PCT;sw.setAttribute('aria-checked',PCT);app.classList.toggle('pct',PCT);
+  sw.classList.remove('on-anim','off-anim');void sw.offsetWidth;sw.classList.add(PCT?'on-anim':'off-anim')};
+ yr=ys[ys.length-1];setYear(yr);
+ matchMedia('(prefers-color-scheme:dark)').addEventListener('change',()=>setTimeout(draw,50));
+ new MutationObserver(()=>setTimeout(draw,50)).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});}
+document.getElementById('f').onsubmit=async e=>{e.preventDefault();const err=document.getElementById('err');err.textContent='';
+ try{await loadEnc()}catch(x){err.textContent='No se pudieron cargar los datos. Intenta de nuevo en unos minutos.';return}
+ try{start(await dec(document.getElementById('pw').value))}catch(x){err.textContent='Contraseña incorrecta.'}};
+</script>
+
+</body>
+</html>
